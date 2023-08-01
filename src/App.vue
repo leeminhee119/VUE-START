@@ -1,16 +1,23 @@
 <template>
   <h1>설문조사</h1>
-  <TextField 
+  <!-- <TextField 
     v-model="fields[0].value"
     :title="fields[0].title" />
   <SimpleRadio
     v-model="fields[1].value"
     :title="fields[1].title"
-    :items="fields[1].items" />
+    :items="fields[1].items" /> -->
+  <component
+    :is="field.component"
+    v-for="field in fields"
+    :key="'component-' + field.title"
+    v-model="field.value"
+    :title="field.title"
+    :items="field.items" />
   <h1>결과</h1>
   <div
     v-for="field in fields"
-    :key="field.title">
+    :key="'result-' + field.title">
     {{ field.value }}
   </div>
 </template>
