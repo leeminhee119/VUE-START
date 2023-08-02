@@ -38,6 +38,11 @@ export default {
       isOpen: this.modelValue,
     }
   },
+  watch: {
+    modelValue(newValue) {
+      newValue ? window.addEventListener('keyup', this.keyupHandler) : window.removeEventListener('keyup', this.keyupHandler)
+    }
+  },
   methods: {
     onModal() {
       this.$emit('update:modelValue', true)
@@ -45,7 +50,13 @@ export default {
     offModal() {
       this.$emit('update:modelValue', false)
     },
-  },
+    keyupHandler(event) {
+      if (event.key === 'Escape') {
+        console.log('ESC!!')
+        this.offModal()
+      }
+    }
+  }
 }
 </script>
 
