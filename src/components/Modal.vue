@@ -2,22 +2,23 @@
   <div @click="onModal">
     <slot name="activator"></slot>
   </div>
-  
-  <template v-if="modelValue">
-    <div
-      class="modal"
-      @click="offModal">
+  <teleport to="body">
+    <template v-if="modelValue">
       <div
-        class="modal__inner"
-        :style="{ width: `${parseInt(width)}px` }"
-        @click.stop>
-        <button @click="offModal">
-          x
-        </button>
-        <slot></slot>
+        class="modal"
+        @click="offModal">
+        <div
+          class="modal__inner"
+          :style="{ width: `${parseInt(width)}px` }"
+          @click.stop>
+          <button @click="offModal">
+            x
+          </button>
+          <slot></slot>
+        </div>
       </div>
-    </div>
-  </template>
+    </template>
+  </teleport>
 </template>
 
 <script>

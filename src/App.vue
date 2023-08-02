@@ -1,18 +1,20 @@
 <template>
-  <Modal
-    v-model="isShow"
-    width="500px">
-    <template #activator>
-      <button>Open Modal!</button>
-    </template>
-    <h3>모달 내용입니다.</h3>
-    <textarea
-      ref="textarea"
-      :value="msg"></textarea>
-    <button @click="submit">
-      출력
-    </button>
-  </Modal>
+  <div style="transform: scale(1)">
+    <Modal
+      v-model="isShow"
+      width="500px">
+      <template #activator>
+        <button>Open Modal!</button>
+      </template>
+      <h3>모달 내용입니다.</h3>
+      <textarea
+        ref="textarea"
+        :value="msg"></textarea>
+      <button @click="submit">
+        출력
+      </button>
+    </Modal>
+  </div>
   <Hello />
 </template>
 
