@@ -2,10 +2,14 @@
   <RouterLink to="/about">
     Go to About
   </RouterLink>
-  <button @click="logIn">
+  <button
+    v-if="!isLoggedIn"
+    @click="logIn">
     로그인
   </button>
-  <button @click="logOut">
+  <button
+    v-else
+    @click="logOut">
     로그아웃
   </button>
   <RouterView />
@@ -13,6 +17,11 @@
 
 <script>
 export default {
+  computed: {
+    isLoggedIn() {
+      return this.$store.state.user.isLoggedIn
+    }
+  },
   methods: {
     logIn() {
       this.$router.push('/logIn')
