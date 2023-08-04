@@ -21,6 +21,14 @@ export default {
       userID: '',
       userPW: ''
     }
+  },
+  methods: {
+    logIn() {
+      this.$store.dispatch('user/logIn', {
+        userId: this.userID,
+        userPw: this.userPW
+      })
+    }
   }
 }
 </script>
