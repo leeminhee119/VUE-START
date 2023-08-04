@@ -1,24 +1,11 @@
 <template>
-  <h1 
-    v-if="msg" 
-    class="message"
-    @click="log">
-    {{ msg }}
-  </h1>
-  <Hello />
+  <RouterLink to="/about">
+    Go to About
+  </RouterLink>
+  <RouterView />
 </template>
 
 <script>
-import Hello from '~/components/Hello'
-
 export default {
-  components: {
-    Hello,
-  },
-  data() {
-    return {
-      msg: 'Hello Vue!',
-    }
-  },
 }
 </script>
