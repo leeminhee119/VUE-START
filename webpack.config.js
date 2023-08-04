@@ -32,9 +32,6 @@ module.exports = {
     new HtmlPlugin({
       template: './src/index.html',
     }),
-    new HtmlPlugin({
-      template: './src/index.html',
-    }),
     new CopyPlugin({
       patterns: [{ from: 'static' }],
     }),
