@@ -18,6 +18,7 @@ export default {
       this.$router.push('/logIn')
     },
     logOut() {
+      this.$store.dispatch('user/logOut')
     },
   }
 }
