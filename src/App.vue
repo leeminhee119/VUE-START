@@ -22,6 +22,9 @@ export default {
       return this.$store.state.user.isLoggedIn
     }
   },
+  created() {
+    this.$store.dispatch('user/initialize')
+  },
   methods: {
     logIn() {
       this.$router.push('/logIn')
