@@ -1,3 +1,5 @@
+import router from '~/routes'
+
 export default {
   namespaced: true,
   state() {
@@ -17,7 +19,7 @@ export default {
   actions: {
     async createWorkspace({ dispatch }, payload = {}) {
       const { parentId } = payload
-      await fetch('https://kdt-frontend.programmers.co.kr/documents', {
+      const workspace = await fetch('https://kdt-frontend.programmers.co.kr/documents', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -29,6 +31,12 @@ export default {
         })
       }).then(res => res.json())
       await dispatch('readWorkspaces')
+      router.push({
+        name: 'Workspace', // 지정해뒀던 페이지 이름
+        params: {
+          id: workspace.id
+        }
+      })
     },
     async readWorkspaces({commit}) {
       const workspaces = await fetch('https://kdt-frontend.programmers.co.kr/documents', {
@@ -55,7 +63,7 @@ export default {
         currentWorkspace: workspace,
       })
     },
-    async updateWorkspace(context, payload) {
+    async updateWorkspace({dispatch}, payload) {
       const { id, title, content } = payload
       await fetch(`https://kdt-frontend.programmers.co.kr/documents/${id}`, {
         method: 'PUT',
@@ -68,6 +76,7 @@ export default {
           content
         })
       }).then(res => res.json())
+      dispatch('readWorkspaces')
     },
     async deleteWorkspace({dispatch}, payload) {
       const { id } = payload
