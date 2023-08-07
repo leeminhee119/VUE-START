@@ -38,7 +38,7 @@ export default {
         }
       })
     },
-    async readWorkspaces({commit}) {
+    async readWorkspaces({commit, dispatch}) {
       const workspaces = await fetch('https://kdt-frontend.programmers.co.kr/documents', {
         method: 'GET',
         headers: {
@@ -49,19 +49,26 @@ export default {
       commit('assignState', {
         workspaces,
       })
+      if (!workspaces.length) { // 최소 하나 이상의 워크스페이스 유지
+        dispatch('createWorkspace')
+      }
     },
     async readWorkspace({commit}, payload) {
       const { id } = payload
-      const workspace = await fetch(`https://kdt-frontend.programmers.co.kr/documents/${id}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-username': 'leeminhee119'
-        }
-      }).then(res => res.json())
-      commit('assignState', {
-        currentWorkspace: workspace,
-      })
+      try {
+        const workspace = await fetch(`https://kdt-frontend.programmers.co.kr/documents/${id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-username': 'leeminhee119'
+          }
+        }).then(res => res.json())
+        commit('assignState', {
+          currentWorkspace: workspace,
+        })
+      } catch (error) {
+        router.push('/error')
+      }
     },
     async updateWorkspace({dispatch}, payload) {
       const { id, title, content } = payload
@@ -78,7 +85,7 @@ export default {
       }).then(res => res.json())
       dispatch('readWorkspaces')
     },
-    async deleteWorkspace({dispatch}, payload) {
+    async deleteWorkspace({state, dispatch}, payload) {
       const { id } = payload
       await fetch(`https://kdt-frontend.programmers.co.kr/documents/${id}`, {
         method: 'DELETE',
@@ -88,6 +95,14 @@ export default {
         }
       }).then(res => res.json())
       await dispatch('readWorkspaces')
+      if (id === parseInt(router.currentRoute.value.params.id, 10)) {
+        router.push({
+          name: 'Workspace',
+          params: {
+            id: state.workspaces[0].id
+          }
+        })
+      }
     }
   }
 }
