@@ -4,7 +4,7 @@
     :style="{ width: `${navWidth}px`}">
     <div class="header">
       <div class="user-profile"></div>
-      Leon's Notion
+      Minhee's Notion
     </div>
     <ul>
       <WorkspaceItem 
