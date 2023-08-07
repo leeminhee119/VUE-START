@@ -1,11 +1,12 @@
 <template>
-  <section>
+  <section :key="$route.params.id">
     <div class="inner">
       <div
         ref="title"
         class="title"
         placeholder="제목 없음"
-        contenteditable>
+        contenteditable
+        @input="onInput">
         {{ title }}
       </div>
       <div
