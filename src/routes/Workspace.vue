@@ -24,11 +24,17 @@
 export default {
   computed: {
     title() {
-      console.log(this.$store.state.workspace.currentWorkspace.title)
       return this.$store.state.workspace.currentWorkspace.title
     },
     content() {
       return this.$store.state.workspace.currentWorkspace.content
+    }
+  },
+  watch: {
+    $route() {
+      this.$store.dispatch('workspace/readWorkspace', {
+        id: this.$route.params.id,
+      })
     }
   },
   created() {
