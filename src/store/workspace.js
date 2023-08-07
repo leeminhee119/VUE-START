@@ -6,6 +6,7 @@ export default {
     return {
       workspaces: [],
       currentWorkspace: {},
+      currentWorkspacePath: [],
     }
   },
   getters: {},
@@ -41,6 +42,7 @@ export default {
       commit('assignState', {
         workspaces,
       })
+      dispatch('findWorkspacePath')
       if (!workspaces.length) { // 최소 하나 이상의 워크스페이스 유지
         dispatch('createWorkspace')
       }
@@ -86,7 +88,21 @@ export default {
           }
         })
       }
-    }
+    },
+    findWorkspacePath({state, commit}) {
+      const currentWorkspaceId = parseInt(router.currentRoute.value.params.id, 10)
+      function _find(workspace, parents) {
+        if (currentWorkspaceId === workspace.id) {
+          commit('assignState', {
+            currentWorkspacePath: [...parents, workspace]
+          })
+        }
+        if (workspace.documents) {
+          workspace.documents.forEach(ws => _find(ws, [...parents, workspace]))
+        }
+      }
+      state.workspaces.forEach(workspace => _find(workspace, []))
+    } 
   }
 }
 
