@@ -2,6 +2,7 @@
   <li>
     <div 
       :style="{ paddingLeft: `${14 * depth}px`}"
+      :class="{ active: parseInt($route.params.id, 10) === workspace.id }"
       class="title"
       @click="$router.push({
         name: 'Workspace',
@@ -97,6 +98,12 @@ li {
       background-color: $color-background--hover1;
       .actions {
         display: flex;
+      }
+    }
+    &.active {
+      .text {
+        font-weight: 700;
+        color: rgba($color-font, .8);
       }
     }
     .text {
