@@ -59,7 +59,7 @@ export default {
           }
         })
         .on('resizemove', event => {
-          this.navWidth = event.rect.width < 140 ? 140 : event.rect.width
+          this.navWidth = event.rect.width
         })
     }
   }
@@ -68,6 +68,9 @@ export default {
 
 <style lang="scss" scoped>
 nav {
+  max-width: 500px;
+  min-width: 160px;
+  flex-shrink: 0;
   height: 100%;
   background-color: $color-background;
   display: flex;
