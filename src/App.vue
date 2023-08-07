@@ -4,11 +4,10 @@
     <div class="app__page">
       <div class="page__header"></div>
       <div class="page__container">
-        <h1>Home!</h1>
+        <RouterView />
       </div>
     </div>
   </div>
-  <RouterView />
 </template>
 
 <script>
