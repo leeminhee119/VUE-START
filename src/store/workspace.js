@@ -19,17 +19,13 @@ export default {
   actions: {
     async createWorkspace({ dispatch }, payload = {}) {
       const { parentId } = payload
-      const workspace = await fetch('https://kdt-frontend.programmers.co.kr/documents', {
+      const workspace = await _request({
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-username': 'leeminhee119'
-        },
         body: JSON.stringify({
           title: '',
           parent: parentId
         })
-      }).then(res => res.json())
+      })
       await dispatch('readWorkspaces')
       router.push({
         name: 'Workspace', // 지정해뒀던 페이지 이름
@@ -39,13 +35,9 @@ export default {
       })
     },
     async readWorkspaces({commit, dispatch}) {
-      const workspaces = await fetch('https://kdt-frontend.programmers.co.kr/documents', {
+      const workspaces = await _request({
         method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-username': 'leeminhee119'
-        }
-      }).then(res => res.json())
+      })
       commit('assignState', {
         workspaces,
       })
@@ -56,13 +48,10 @@ export default {
     async readWorkspace({commit}, payload) {
       const { id } = payload
       try {
-        const workspace = await fetch(`https://kdt-frontend.programmers.co.kr/documents/${id}`, {
+        const workspace = await _request({
+          id,
           method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-username': 'leeminhee119'
-          }
-        }).then(res => res.json())
+        })
         commit('assignState', {
           currentWorkspace: workspace,
         })
@@ -72,28 +61,22 @@ export default {
     },
     async updateWorkspace({dispatch}, payload) {
       const { id, title, content } = payload
-      await fetch(`https://kdt-frontend.programmers.co.kr/documents/${id}`, {
+      await _request({
+        id,
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-username': 'leeminhee119'
-        },
         body: JSON.stringify({
           title,
           content
         })
-      }).then(res => res.json())
+      })
       dispatch('readWorkspaces')
     },
     async deleteWorkspace({state, dispatch}, payload) {
       const { id } = payload
-      await fetch(`https://kdt-frontend.programmers.co.kr/documents/${id}`, {
+      await _request({
+        id,
         method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-username': 'leeminhee119'
-        }
-      }).then(res => res.json())
+      })
       await dispatch('readWorkspaces')
       if (id === parseInt(router.currentRoute.value.params.id, 10)) {
         router.push({
@@ -105,4 +88,15 @@ export default {
       }
     }
   }
+}
+
+async function _request(options) {
+  const { id = '' } = options
+  return await fetch(`https://kdt-frontend.programmers.co.kr/documents/${id}`, {
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      'x-username': 'leeminhee119'
+    },
+  }).then(res => res.json())
 }
