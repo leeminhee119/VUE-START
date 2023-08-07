@@ -1,5 +1,7 @@
 <template>
-  <nav :style="{ width: `${navWidth}px`}">
+  <nav 
+    ref="nav"
+    :style="{ width: `${navWidth}px`}">
     <div class="header">
       <div class="user-profile"></div>
       Leon's Notion
@@ -18,6 +20,7 @@
       </div>
     </div>
     <div
+      ref="resizeHandle"
       class="resize-handle"
       @dblclick="navWidth = 240"></div>
   </nav>
@@ -49,10 +52,10 @@ export default {
   },
   methods: {
     navInit() {
-      interact('nav')
+      interact(this.$refs.nav)
         .resizable({
           edges: {
-            right: '.resize-handle' // .resize-handle을 움직일 때만 resizemove 동작
+            right: this.$refs.resizeHandle
           }
         })
         .on('resizemove', event => {
